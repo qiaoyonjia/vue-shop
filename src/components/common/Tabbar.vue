@@ -5,8 +5,8 @@
         :key="index"
         @click="switchTab(item.path)"
     >
-      <img :src="item.active" alt="">
-      <span>{{item.title}}</span>
+      <img :src="$route.path.includes(item.path) ? item.selected : item.active" alt="">
+      <span :class="$route.path.includes(item.path) ? 'active' : ''">{{item.title}}</span>
     </li>
   </ul>
  </div>
@@ -48,7 +48,9 @@
    methods: {
     // 点击跳转
     switchTab(path) {
-      this.$router.push(path)
+      // 解决重复点同一个路由报错问题
+      if (this.$route.path == path) return;
+      this.$router.replace(path)
     }
    },
  }
@@ -91,5 +93,9 @@
 .tab-bar ul li span {
   text-align: center;
   font-size: 16px;
+}
+
+.active {
+  color: red;
 }
 </style>
